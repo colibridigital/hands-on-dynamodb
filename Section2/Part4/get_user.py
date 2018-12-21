@@ -6,7 +6,6 @@ from boto3.dynamodb.conditions import Key
 
 dynamodb = boto3.resource('dynamodb')
 table_name = os.environ['USER_TABLE']
-# table_name = "UsersTable"
 table = dynamodb.Table(table_name)
 
 
@@ -36,6 +35,3 @@ def __get_user_by_id(user_id):
     )
 
     return response['Items'][0]
-
-# user = __get_user_by_id("bcf34717ee5b4480a9d51c549f0f05c4")
-# print()

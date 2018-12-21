@@ -33,6 +33,21 @@ Resources:
           ReadCapacityUnits: 2
           WriteCapacityUnits: 2
 
+    CourseTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: CourseTable
+        AttributeDefinitions:
+          - AttributeName: course_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: course_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+
+
     CreateUserFunction:
       Type: AWS::Serverless::Function 
       Properties:
@@ -75,6 +90,9 @@ Resources:
         Policies:
           - DynamoDBCrudPolicy:
               TableName:
+                !Ref CourseTable
+          - DynamoDBCrudPolicy:
+              TableName:
                 !Ref UsersTable
         Events:
           Createuser:
@@ -92,12 +110,12 @@ Resources:
         Policies:
           - DynamoDBCrudPolicy:
               TableName:
-                !Ref UsersTable
+                !Ref CourseTable
         Events:
           Createuser:
             Type: Api 
             Properties:
-              Path: /courses/{courseid}
+              Path: /courses
               Method: put
 
     GetCourseFunction:
@@ -109,7 +127,7 @@ Resources:
         Policies:
           - DynamoDBCrudPolicy:
               TableName:
-                !Ref UsersTable
+                !Ref CourseTable
         Events:
           Createuser:
             Type: Api 

@@ -14,7 +14,7 @@ Globals:
 Resources:
   AddCourseFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/d7f08b986cf5f5c8b487a4cd15fcafff
+      CodeUri: s3://colib-digitial-hands-on-dynamo/cb92ff86176cf8557ce4f79c78595715
       Events:
         Createuser:
           Properties:
@@ -25,28 +25,44 @@ Resources:
       Policies:
       - DynamoDBCrudPolicy:
           TableName:
-            Ref: UsersTable
-      Runtime: python3.7
-    Type: AWS::Serverless::Function
-  CreateCourseFunction:
-    Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/d7f08b986cf5f5c8b487a4cd15fcafff
-      Events:
-        Createuser:
-          Properties:
-            Method: put
-            Path: /courses/{courseid}
-          Type: Api
-      Handler: create_course.lambda_handler
-      Policies:
+            Ref: CourseTable
       - DynamoDBCrudPolicy:
           TableName:
             Ref: UsersTable
       Runtime: python3.7
     Type: AWS::Serverless::Function
+  CourseTable:
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: course_id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: course_id
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+      TableName: CourseTable
+    Type: AWS::DynamoDB::Table
+  CreateCourseFunction:
+    Properties:
+      CodeUri: s3://colib-digitial-hands-on-dynamo/cb92ff86176cf8557ce4f79c78595715
+      Events:
+        Createuser:
+          Properties:
+            Method: put
+            Path: /courses
+          Type: Api
+      Handler: create_course.lambda_handler
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: CourseTable
+      Runtime: python3.7
+    Type: AWS::Serverless::Function
   CreateUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/d7f08b986cf5f5c8b487a4cd15fcafff
+      CodeUri: s3://colib-digitial-hands-on-dynamo/cb92ff86176cf8557ce4f79c78595715
       Events:
         Createuser:
           Properties:
@@ -62,7 +78,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetCourseFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/d7f08b986cf5f5c8b487a4cd15fcafff
+      CodeUri: s3://colib-digitial-hands-on-dynamo/cb92ff86176cf8557ce4f79c78595715
       Events:
         Createuser:
           Properties:
@@ -73,12 +89,12 @@ Resources:
       Policies:
       - DynamoDBCrudPolicy:
           TableName:
-            Ref: UsersTable
+            Ref: CourseTable
       Runtime: python3.7
     Type: AWS::Serverless::Function
   GetUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/d7f08b986cf5f5c8b487a4cd15fcafff
+      CodeUri: s3://colib-digitial-hands-on-dynamo/cb92ff86176cf8557ce4f79c78595715
       Events:
         Createuser:
           Properties:

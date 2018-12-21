@@ -14,7 +14,7 @@ Globals:
 Resources:
   AddCourseFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/cb92ff86176cf8557ce4f79c78595715
+      CodeUri: s3://colib-digitial-hands-on-dynamo/272f573d9d2ef535eb47552bd3a924f0
       Events:
         Createuser:
           Properties:
@@ -46,7 +46,7 @@ Resources:
     Type: AWS::DynamoDB::Table
   CreateCourseFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/cb92ff86176cf8557ce4f79c78595715
+      CodeUri: s3://colib-digitial-hands-on-dynamo/272f573d9d2ef535eb47552bd3a924f0
       Events:
         Createuser:
           Properties:
@@ -62,7 +62,7 @@ Resources:
     Type: AWS::Serverless::Function
   CreateUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/cb92ff86176cf8557ce4f79c78595715
+      CodeUri: s3://colib-digitial-hands-on-dynamo/272f573d9d2ef535eb47552bd3a924f0
       Events:
         Createuser:
           Properties:
@@ -78,7 +78,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetCourseFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/cb92ff86176cf8557ce4f79c78595715
+      CodeUri: s3://colib-digitial-hands-on-dynamo/272f573d9d2ef535eb47552bd3a924f0
       Events:
         Createuser:
           Properties:
@@ -94,7 +94,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/cb92ff86176cf8557ce4f79c78595715
+      CodeUri: s3://colib-digitial-hands-on-dynamo/272f573d9d2ef535eb47552bd3a924f0
       Events:
         Createuser:
           Properties:

@@ -64,6 +64,7 @@ Resources:
             Properties:
               Path: /users
               Method: put
+
     GetUserFunction:
       Type: AWS::Serverless::Function 
       Properties:
@@ -87,7 +88,12 @@ Resources:
         CodeUri: .
         Handler: add_course.lambda_handler
         Runtime: python3.7
-        Policies:
+        Policies:def __get_user_by_id(user_id):
+            response = table.query(
+              KeyConditionExpression=Key('user_id').eq(user_id)
+              )
+
+              return response['Items'][0]
           - DynamoDBCrudPolicy:
               TableName:
                 !Ref CourseTable

@@ -29,9 +29,4 @@ def lambda_handler(event, context):
     }
 
 
-def __get_user_by_id(user_id):
-    response = table.query(
-        KeyConditionExpression=Key('user_id').eq(user_id)
-    )
 
-    return response['Items'][0]

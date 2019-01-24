@@ -14,7 +14,7 @@ Globals:
 Resources:
   AddCourseFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/8187a4a0ad0c8b8e3210506adf3be006
+      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
       Events:
         Createuser:
           Properties:
@@ -46,7 +46,7 @@ Resources:
     Type: AWS::DynamoDB::Table
   CreateCourseFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/8187a4a0ad0c8b8e3210506adf3be006
+      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
       Events:
         Createuser:
           Properties:
@@ -62,7 +62,7 @@ Resources:
     Type: AWS::Serverless::Function
   CreateUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/8187a4a0ad0c8b8e3210506adf3be006
+      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
       Events:
         Createuser:
           Properties:
@@ -78,7 +78,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetCourseFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/8187a4a0ad0c8b8e3210506adf3be006
+      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
       Events:
         Createuser:
           Properties:
@@ -92,9 +92,23 @@ Resources:
             Ref: CourseTable
       Runtime: python3.7
     Type: AWS::Serverless::Function
+  GetUserByEmailFunction:
+    Properties:
+      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
+      Events:
+        Createuser:
+          Properties:
+            Method: get
+            Path: /users/email/{email_address}
+          Type: Api
+      Handler: get_user_by_email.lambda_handler
+      Policies:
+      - AmazonDynamoDBFullAccess
+      Runtime: python3.7
+    Type: AWS::Serverless::Function
   GetUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/8187a4a0ad0c8b8e3210506adf3be006
+      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
       Events:
         Createuser:
           Properties:
@@ -115,6 +129,18 @@ Resources:
         AttributeType: S
       - AttributeName: last_login
         AttributeType: N
+      - AttributeName: email_address
+        AttributeType: S
+      GlobalSecondaryIndexes:
+      - IndexName: EmailIndex
+        KeySchema:
+        - AttributeName: email_address
+          KeyType: HASH
+        Projection:
+          ProjectionType: ALL
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
       KeySchema:
       - AttributeName: user_id
         KeyType: HASH

@@ -24,6 +24,8 @@ Resources:
             AttributeType: S
           - AttributeName: last_login
             AttributeType: N
+          - AttributeName: email_address
+            AttributeType: S
         KeySchema:
           - AttributeName: user_id
             KeyType: HASH
@@ -35,15 +37,13 @@ Resources:
         GlobalSecondaryIndexes:
           - IndexName: EmailIndex
             KeySchema:
-              - AttributeName: user_id
+              - AttributeName: email_address
                 KeyType: HASH
-              - AttributeName: last_login
-                KeyType: RANGE
             ProvisionedThroughput:
               ReadCapacityUnits: 2
               WriteCapacityUnits: 2
             Projection:
-              ProjectionType: All
+              ProjectionType: ALL
 
     CourseTable:
       Type: AWS::DynamoDB::Table
@@ -92,6 +92,21 @@ Resources:
             Type: Api 
             Properties:
               Path: /users/{userid}
+              Method: get
+
+    GetUserByEmailFunction:
+      Type: AWS::Serverless::Function 
+      Properties:
+        CodeUri: .
+        Handler: get_user_by_email.lambda_handler
+        Runtime: python3.7
+        Policies:
+          - AmazonDynamoDBFullAccess
+        Events:
+          Createuser:
+            Type: Api 
+            Properties:
+              Path: /users/email/{email_address}
               Method: get
 
     AddCourseFunction:

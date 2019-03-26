@@ -7,11 +7,11 @@ Description: >
 
 Globals:
     Function:
-        Timeout: 3
+        Timeout: 30
         Environment:
           Variables:
             USER_TABLE: UsersTable
-            COURSE_TABLE: CourseTable
+            AUTH_TABLE: AuthsTable
 
 
 Resources:
@@ -22,16 +22,33 @@ Resources:
         AttributeDefinitions:
           - AttributeName: user_id
             AttributeType: S
-          - AttributeName: last_login
-            AttributeType: N
         KeySchema:
           - AttributeName: user_id
             KeyType: HASH
-          - AttributeName: last_login
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+
+    AuthsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: AuthsTable
+        AttributeDefinitions:
+          - AttributeName: user_id
+            AttributeType: S
+          - AttributeName: auth_token
+            AttributeType: S
+        KeySchema:
+          - AttributeName: user_id
+            KeyType: HASH
+          - AttributeName: auth_token
             KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 2
           WriteCapacityUnits: 2
+        TimeToLiveSpecification:
+          AttributeName: ExpiryTime
+          Enabled: True
 
     CreateUserFunction:
       Type: AWS::Serverless::Function 
@@ -71,15 +88,38 @@ Resources:
       Type: AWS::Serverless::Function 
       Properties:
         CodeUri: .
-        Handler: login_user.lambda_handlerTh
+        Handler: login_user.lambda_handler
         Runtime: python3.7
         Policies:
           - DynamoDBCrudPolicy:
               TableName:
                 !Ref UsersTable
+          - DynamoDBCrudPolicy:
+              TableName:
+                !Ref AuthsTable
         Events:
           Createuser:
             Type: Api 
             Properties:
               Path: /users/{userid}/login
+              Method: post
+    
+    ValidateAuthFunction:
+      Type: AWS::Serverless::Function 
+      Properties:
+        CodeUri: .
+        Handler: validate_auth.lambda_handler
+        Runtime: python3.7
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName:
+                !Ref UsersTable
+          - DynamoDBCrudPolicy:
+              TableName:
+                !Ref AuthsTable
+        Events:
+          Createuser:
+            Type: Api 
+            Properties:
+              Path: /someaction
               Method: post

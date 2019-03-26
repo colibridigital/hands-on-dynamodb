@@ -11,70 +11,87 @@ Globals:
         Environment:
           Variables:
             USER_TABLE: UsersTable
-            AUTH_TABLE: AuthsTable
+
 
 Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UsersTable
+        AttributeDefinitions:
+          - AttributeName: user_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: user_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+
     CreateUserFunction:
       Type: AWS::Serverless::Function 
       Properties:
         CodeUri: .
         Handler: create_user.lambda_handler
         Runtime: python3.7
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName:
+                !Ref UsersTable
         Events:
           Createuser:
             Type: Api 
             Properties:
-              Path: /users/{userid}
+              Path: /users
               Method: put
-
+    
     GetUserFunction:
       Type: AWS::Serverless::Function 
       Properties:
         CodeUri: .
         Handler: get_user.lambda_handler
         Runtime: python3.7
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName:
+                !Ref UsersTable
         Events:
           Createuser:
             Type: Api 
             Properties:
               Path: /users/{userid}
               Method: get
-
-    AddCourseFunction:
+    
+    LoginUserFunction:
       Type: AWS::Serverless::Function 
       Properties:
         CodeUri: .
-        Handler: add_course.lambda_handler
+        Handler: login_user.lambda_handler
         Runtime: python3.7
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName:
+                !Ref UsersTable
         Events:
           Createuser:
             Type: Api 
             Properties:
-              Path: /users/{userid}/{courseid}
-              Method: put
-
-    CreateCourseFunction:
+              Path: /users/{userid}/login
+              Method: post
+    
+    ValidateAuthFunction:
       Type: AWS::Serverless::Function 
       Properties:
         CodeUri: .
-        Handler: create_course.lambda_handler
+        Handler: validate_auth.lambda_handler
         Runtime: python3.7
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName:
+                !Ref UsersTable
         Events:
           Createuser:
             Type: Api 
             Properties:
-              Path: /courses/{courseid}
-              Method: put
-
-    GetCourseFunction:
-      Type: AWS::Serverless::Function 
-      Properties:
-        CodeUri: .
-        Handler: get_course.lambda_handler
-        Runtime: python3.7
-        Events:
-          Createuser:
-            Type: Api 
-            Properties:
-              Path: /courses/{courseid}
-              Method: get
+              Path: /someaction
+              Method: post

@@ -8,13 +8,13 @@ Globals:
   Function:
     Environment:
       Variables:
-        COURSE_TABLE: CourseTable
+        AUTH_TABLE: AuthsTable
         USER_TABLE: UsersTable
-    Timeout: 3
+    Timeout: 30
 Resources:
   AddCourseFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/8187a4a0ad0c8b8e3210506adf3be006
+      CodeUri: s3://colib-digitial-hands-on-dynamo/9cd2cf85b80f746fd5d4d7ecaaf4f6a0
       Events:
         Createuser:
           Properties:
@@ -22,63 +22,35 @@ Resources:
             Path: /users/{userid}/{courseid}
           Type: Api
       Handler: add_course.lambda_handler
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName:
-            Ref: CourseTable
-      - DynamoDBCrudPolicy:
-          TableName:
-            Ref: UsersTable
       Runtime: python3.7
     Type: AWS::Serverless::Function
-  CourseTable:
-    Properties:
-      AttributeDefinitions:
-      - AttributeName: course_id
-        AttributeType: S
-      KeySchema:
-      - AttributeName: course_id
-        KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
-      TableName: CourseTable
-    Type: AWS::DynamoDB::Table
   CreateCourseFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/8187a4a0ad0c8b8e3210506adf3be006
+      CodeUri: s3://colib-digitial-hands-on-dynamo/9cd2cf85b80f746fd5d4d7ecaaf4f6a0
       Events:
         Createuser:
           Properties:
             Method: put
-            Path: /courses
+            Path: /courses/{courseid}
           Type: Api
       Handler: create_course.lambda_handler
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName:
-            Ref: CourseTable
       Runtime: python3.7
     Type: AWS::Serverless::Function
   CreateUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/8187a4a0ad0c8b8e3210506adf3be006
+      CodeUri: s3://colib-digitial-hands-on-dynamo/9cd2cf85b80f746fd5d4d7ecaaf4f6a0
       Events:
         Createuser:
           Properties:
             Method: put
-            Path: /users
+            Path: /users/{userid}
           Type: Api
       Handler: create_user.lambda_handler
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName:
-            Ref: UsersTable
       Runtime: python3.7
     Type: AWS::Serverless::Function
   GetCourseFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/8187a4a0ad0c8b8e3210506adf3be006
+      CodeUri: s3://colib-digitial-hands-on-dynamo/9cd2cf85b80f746fd5d4d7ecaaf4f6a0
       Events:
         Createuser:
           Properties:
@@ -86,15 +58,11 @@ Resources:
             Path: /courses/{courseid}
           Type: Api
       Handler: get_course.lambda_handler
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName:
-            Ref: CourseTable
       Runtime: python3.7
     Type: AWS::Serverless::Function
   GetUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/8187a4a0ad0c8b8e3210506adf3be006
+      CodeUri: s3://colib-digitial-hands-on-dynamo/9cd2cf85b80f746fd5d4d7ecaaf4f6a0
       Events:
         Createuser:
           Properties:
@@ -102,27 +70,6 @@ Resources:
             Path: /users/{userid}
           Type: Api
       Handler: get_user.lambda_handler
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName:
-            Ref: UsersTable
       Runtime: python3.7
     Type: AWS::Serverless::Function
-  UsersTable:
-    Properties:
-      AttributeDefinitions:
-      - AttributeName: user_id
-        AttributeType: S
-      - AttributeName: last_login
-        AttributeType: N
-      KeySchema:
-      - AttributeName: user_id
-        KeyType: HASH
-      - AttributeName: last_login
-        KeyType: RANGE
-      ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
-      TableName: UsersTable
-    Type: AWS::DynamoDB::Table
 Transform: AWS::Serverless-2016-10-31

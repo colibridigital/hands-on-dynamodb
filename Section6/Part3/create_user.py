@@ -8,8 +8,7 @@ import uuid
 import boto3
 
 dynamodb = boto3.resource('dynamodb')
-# table_name = os.environ['USER_TABLE']
-table_name = "UsersTable"
+table_name = os.environ['USER_TABLE']
 table = dynamodb.Table(table_name)
 
 
@@ -43,8 +42,7 @@ def __create_user(email_address, password, first_name, last_name):
         'first_name': first_name,
         'last_name': last_name,
         'password': str(__encrypt_password(password)),
-        'last_login': last_login,
-        'fav_courses': []
+        'last_login': last_login
     }
 
     print("Will write " + str(user_doc))

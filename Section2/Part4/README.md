@@ -8,11 +8,6 @@ aws dynamodb scan --table-name UsersTable
 
 aws dynamodb scan \
      --table-name UsersTable \
-     --filter-expression "last_login = : last_login" \
-     --expression-attribute-values '{": last_login”:{“N”:1546519879010}}'
-
-aws dynamodb scan \
-     --table-name UsersTable \
-     --filter-expression "last_login = :last_login" \
-     --expression-attribute-values '{":last_login":{"N":"1546519879010"}}'
+     --filter-expression "first_name = :first_name" \
+     --expression-attribute-values '{":first_name":{"S":"Dave"}}'
 ```

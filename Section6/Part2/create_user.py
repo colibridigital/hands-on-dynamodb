@@ -43,8 +43,7 @@ def __create_user(email_address, password, first_name, last_name):
         'first_name': first_name,
         'last_name': last_name,
         'password': str(__encrypt_password(password)),
-        'last_login': last_login,
-        'fav_courses': []
+        'last_login': last_login
     }
 
     print("Will write " + str(user_doc))

@@ -14,7 +14,7 @@ Globals:
 Resources:
   AddCourseFunction:
     Properties:
-      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
+      CodeUri: s3://colib-digitial-hands-on-dynamo/c91e5782fb1eb697f2beb6da3a1e2654
       Events:
         Createuser:
           Properties:
@@ -46,7 +46,7 @@ Resources:
     Type: AWS::DynamoDB::Table
   CreateCourseFunction:
     Properties:
-      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
+      CodeUri: s3://colib-digitial-hands-on-dynamo/c91e5782fb1eb697f2beb6da3a1e2654
       Events:
         Createuser:
           Properties:
@@ -62,7 +62,7 @@ Resources:
     Type: AWS::Serverless::Function
   CreateUserFunction:
     Properties:
-      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
+      CodeUri: s3://colib-digitial-hands-on-dynamo/c91e5782fb1eb697f2beb6da3a1e2654
       Events:
         Createuser:
           Properties:
@@ -78,7 +78,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetCourseFunction:
     Properties:
-      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
+      CodeUri: s3://colib-digitial-hands-on-dynamo/c91e5782fb1eb697f2beb6da3a1e2654
       Events:
         Createuser:
           Properties:
@@ -94,7 +94,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetUserByEmailFunction:
     Properties:
-      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
+      CodeUri: s3://colib-digitial-hands-on-dynamo/c91e5782fb1eb697f2beb6da3a1e2654
       Events:
         Createuser:
           Properties:
@@ -108,7 +108,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetUserFunction:
     Properties:
-      CodeUri: s3://colibri-digital-sam-bucket/2cab353c20d5ebad5880208328aeab52
+      CodeUri: s3://colib-digitial-hands-on-dynamo/c91e5782fb1eb697f2beb6da3a1e2654
       Events:
         Createuser:
           Properties:

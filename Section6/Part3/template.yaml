@@ -11,6 +11,7 @@ Globals:
         Environment:
           Variables:
             USER_TABLE: UsersTable
+            COURSE_TABLR: CourseTable
             S3_BUCKET: !Ref ColibriUserSinkBucket
 
 Resources:

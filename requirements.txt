@@ -1,0 +1,5 @@
+requests
+aws-sam-cli
+pyyaml
+regex
+boto3

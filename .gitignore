@@ -245,5 +245,6 @@ $RECYCLE.BIN/
 .aws-sam
 venv
 .idea
-Section3/Part4/packaged.yaml
+*.packaged.yaml
+.vscode
 

@@ -8,33 +8,12 @@ Globals:
   Function:
     Environment:
       Variables:
-        AUTH_TABLE: AuthsTable
         USER_TABLE: UsersTable
     Timeout: 30
 Resources:
-  AuthsTable:
-    Properties:
-      AttributeDefinitions:
-      - AttributeName: user_id
-        AttributeType: S
-      - AttributeName: auth_token
-        AttributeType: S
-      KeySchema:
-      - AttributeName: user_id
-        KeyType: HASH
-      - AttributeName: auth_token
-        KeyType: RANGE
-      ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
-      TableName: AuthsTable
-      TimeToLiveSpecification:
-        AttributeName: ExpiryTime
-        Enabled: true
-    Type: AWS::DynamoDB::Table
   CreateUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/764f8d680c0586fbaef40d65e2f834aa
+      CodeUri: s3://colib-digitial-hands-on-dynamo/ece07374e3d405c51e13e857e6c262f8
       Events:
         Createuser:
           Properties:
@@ -50,11 +29,11 @@ Resources:
     Type: AWS::Serverless::Function
   DynamoStreamProcessorFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/764f8d680c0586fbaef40d65e2f834aa
+      CodeUri: s3://colib-digitial-hands-on-dynamo/ece07374e3d405c51e13e857e6c262f8
       Events:
         DynamoDB1:
           Properties:
-            BatchSize: 100
+            BatchSize: 1
             StartingPosition: TRIM_HORIZON
             Stream:
               Fn::GetAtt:
@@ -62,41 +41,6 @@ Resources:
               - StreamArn
           Type: DynamoDB
       Handler: process_stream.lambda_handler
-      Runtime: python3.7
-    Type: AWS::Serverless::Function
-  GetUserFunction:
-    Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/764f8d680c0586fbaef40d65e2f834aa
-      Events:
-        Createuser:
-          Properties:
-            Method: get
-            Path: /users/{userid}
-          Type: Api
-      Handler: get_user.lambda_handler
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName:
-            Ref: UsersTable
-      Runtime: python3.7
-    Type: AWS::Serverless::Function
-  LoginUserFunction:
-    Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/764f8d680c0586fbaef40d65e2f834aa
-      Events:
-        Createuser:
-          Properties:
-            Method: post
-            Path: /users/{userid}/login
-          Type: Api
-      Handler: login_user.lambda_handler
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName:
-            Ref: UsersTable
-      - DynamoDBCrudPolicy:
-          TableName:
-            Ref: AuthsTable
       Runtime: python3.7
     Type: AWS::Serverless::Function
   UsersTable:
@@ -114,23 +58,4 @@ Resources:
         StreamViewType: NEW_IMAGE
       TableName: UsersTable
     Type: AWS::DynamoDB::Table
-  ValidateAuthFunction:
-    Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/764f8d680c0586fbaef40d65e2f834aa
-      Events:
-        Createuser:
-          Properties:
-            Method: post
-            Path: /someaction
-          Type: Api
-      Handler: validate_auth.lambda_handler
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName:
-            Ref: UsersTable
-      - DynamoDBCrudPolicy:
-          TableName:
-            Ref: AuthsTable
-      Runtime: python3.7
-    Type: AWS::Serverless::Function
 Transform: AWS::Serverless-2016-10-31

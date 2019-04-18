@@ -8,6 +8,7 @@ Globals:
   Function:
     Environment:
       Variables:
+        COURSE_TABLR: CourseTable
         S3_BUCKET:
           Ref: ColibriUserSinkBucket
         USER_TABLE: UsersTable
@@ -17,7 +18,7 @@ Resources:
     Type: AWS::S3::Bucket
   CreateUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/adbdea1df49ca20adf25199e3822c2ea
+      CodeUri: s3://colib-digitial-hands-on-dynamo/01873de8dca4619306adcb0e07360c5c
       Events:
         Createuser:
           Properties:
@@ -33,7 +34,7 @@ Resources:
     Type: AWS::Serverless::Function
   DynamoStreamProcessorFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/adbdea1df49ca20adf25199e3822c2ea
+      CodeUri: s3://colib-digitial-hands-on-dynamo/01873de8dca4619306adcb0e07360c5c
       Events:
         DynamoDB1:
           Properties:

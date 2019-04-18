@@ -11,7 +11,6 @@ Globals:
         Environment:
           Variables:
             USER_TABLE: UsersTable
-            AUTH_TABLE: AuthsTable
 
 
 Resources:
@@ -31,27 +30,6 @@ Resources:
         StreamSpecification:
           StreamViewType: NEW_IMAGE
 
-    AuthsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: AuthsTable
-        AttributeDefinitions:
-          - AttributeName: user_id
-            AttributeType: S
-          - AttributeName: auth_token
-            AttributeType: S
-        KeySchema:
-          - AttributeName: user_id
-            KeyType: HASH
-          - AttributeName: auth_token
-            KeyType: RANGE
-        ProvisionedThroughput:
-          ReadCapacityUnits: 2
-          WriteCapacityUnits: 2
-        TimeToLiveSpecification:
-          AttributeName: ExpiryTime
-          Enabled: True
-
     DynamoStreamProcessorFunction:
       Type: AWS::Serverless::Function 
       Properties:
@@ -67,7 +45,7 @@ Resources:
                   - UsersTable
                   - StreamArn
               StartingPosition: TRIM_HORIZON
-              BatchSize: 100
+              BatchSize: 1
     
 
     CreateUserFunction:
@@ -86,60 +64,3 @@ Resources:
             Properties:
               Path: /users
               Method: put
-    
-    GetUserFunction:
-      Type: AWS::Serverless::Function 
-      Properties:
-        CodeUri: .
-        Handler: get_user.lambda_handler
-        Runtime: python3.7
-        Policies:
-          - DynamoDBCrudPolicy:
-              TableName:
-                !Ref UsersTable
-        Events:
-          Createuser:
-            Type: Api 
-            Properties:
-              Path: /users/{userid}
-              Method: get
-    
-    LoginUserFunction:
-      Type: AWS::Serverless::Function 
-      Properties:
-        CodeUri: .
-        Handler: login_user.lambda_handler
-        Runtime: python3.7
-        Policies:
-          - DynamoDBCrudPolicy:
-              TableName:
-                !Ref UsersTable
-          - DynamoDBCrudPolicy:
-              TableName:
-                !Ref AuthsTable
-        Events:
-          Createuser:
-            Type: Api 
-            Properties:
-              Path: /users/{userid}/login
-              Method: post
-    
-    ValidateAuthFunction:
-      Type: AWS::Serverless::Function 
-      Properties:
-        CodeUri: .
-        Handler: validate_auth.lambda_handler
-        Runtime: python3.7
-        Policies:
-          - DynamoDBCrudPolicy:
-              TableName:
-                !Ref UsersTable
-          - DynamoDBCrudPolicy:
-              TableName:
-                !Ref AuthsTable
-        Events:
-          Createuser:
-            Type: Api 
-            Properties:
-              Path: /someaction
-              Method: post

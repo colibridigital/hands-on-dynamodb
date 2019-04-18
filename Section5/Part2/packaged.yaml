@@ -13,7 +13,7 @@ Globals:
 Resources:
   CreateUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/22c9e2a89cb2202ef7cc21a95c798d7d
+      CodeUri: s3://colib-digitial-hands-on-dynamo/cde8169370fa4f35cfaf4906c110b44e
       Events:
         Createuser:
           Properties:
@@ -29,7 +29,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/22c9e2a89cb2202ef7cc21a95c798d7d
+      CodeUri: s3://colib-digitial-hands-on-dynamo/cde8169370fa4f35cfaf4906c110b44e
       Events:
         Createuser:
           Properties:
@@ -45,7 +45,7 @@ Resources:
     Type: AWS::Serverless::Function
   LoginUserFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/22c9e2a89cb2202ef7cc21a95c798d7d
+      CodeUri: s3://colib-digitial-hands-on-dynamo/cde8169370fa4f35cfaf4906c110b44e
       Events:
         Createuser:
           Properties:
@@ -74,7 +74,7 @@ Resources:
     Type: AWS::DynamoDB::Table
   ValidateAuthFunction:
     Properties:
-      CodeUri: s3://colib-digitial-hands-on-dynamo/22c9e2a89cb2202ef7cc21a95c798d7d
+      CodeUri: s3://colib-digitial-hands-on-dynamo/cde8169370fa4f35cfaf4906c110b44e
       Events:
         Createuser:
           Properties:

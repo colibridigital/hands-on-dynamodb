@@ -71,7 +71,7 @@ Resources:
       Type: AWS::Serverless::Function 
       Properties:
         CodeUri: .
-        Handler: login_user.lambda_handlerTh
+        Handler: login_user.lambda_handler
         Runtime: python3.7
         Policies:
           - DynamoDBCrudPolicy:
